@@ -49,7 +49,7 @@ streamlit run app.py
 ---
 
 ## 📁 Project Structure
-
+```
 Risk_Chat/
 │
 ├── app.py # Streamlit frontend
@@ -61,7 +61,7 @@ Risk_Chat/
 ├── risk_analysis_log.db # SQLite database for logs
 ├── requirements.txt # Optional dependency list
 └── README.md # Project documentation
-
+```
 
 ---
 
