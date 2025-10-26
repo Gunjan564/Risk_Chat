@@ -36,9 +36,8 @@ python -m venv venv_new
 # Run the Streamlit app
 streamlit run app.py
 
-
+```
 ---
-
 ## ⚠️ Troubleshooting Guide
 
 | **Error Message** | **Cause** | **Fix** |
