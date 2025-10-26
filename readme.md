@@ -5,7 +5,7 @@ The system operates using a **two-tier architecture** — a Streamlit frontend a
 
 ---
 
-## 🧩 System Overview
+## System Overview
 
 | Service | Technology | Role | Port |
 | :--- | :--- | :--- | :--- |
@@ -15,7 +15,7 @@ The system operates using a **two-tier architecture** — a Streamlit frontend a
 
 ---
 
-## 🚀 Setup and Installation
+## Setup and Installation
 
 Follow these steps exactly to set up and run both the backend and frontend services.
 
@@ -37,48 +37,52 @@ python -m venv venv_new
 streamlit run app.py
 
 
-The app will automatically open in your browser at:
-👉 http://localhost:5000/
+---
 
-⚠️ Troubleshooting Guide
-Error Message	Cause	Fix
-ConnectionError / Model service timed out	The backend (api_server.py) is not running or the models took too long to load.	1. Check Terminal 1: ensure the API server is running and shows Running on http://0.0.0.0:5001/.
-2. Increase timeout: open app.py, find APIModelClient.predict, and change timeout=60. Restart both services.
-ModuleNotFoundError	Dependencies installed in the wrong Python environment.	Recreate the virtual environment and reinstall all dependencies. Always ensure the environment is active before installing packages. You can also run:
-.\venv_new\Scripts\python.exe -m streamlit run app.py
-ValueError: DATABASE_URL environment variable not set	The mandatory environment variable is missing.	Run:
-set DATABASE_URL=sqlite:///./risk_analysis_log.db before starting the app.
-📁 Project Structure
+## ⚠️ Troubleshooting Guide
+
+| **Error Message** | **Cause** | **Fix** |
+| :--- | :--- | :--- |
+| **ConnectionError / Model service timed out** | The backend (`api_server.py`) is not running or the models took too long to load. | 1. Check **Terminal 1** – ensure the API server is running and shows:<br>`Running on http://0.0.0.0:5001/`.<br>2. Increase timeout: open `app.py`, find `APIModelClient.predict`, and set `timeout=60`. Restart both services. |
+| **ModuleNotFoundError** | Dependencies installed in the wrong Python environment. | Recreate the virtual environment and reinstall all dependencies. Always ensure the environment is active before installing packages.<br>Alternatively, run:<br>`.\venv_new\Scripts\python.exe -m streamlit run app.py` |
+| **ValueError: DATABASE_URL environment variable not set** | The required environment variable is missing. | Run:<br>`set DATABASE_URL=sqlite:///./risk_analysis_log.db`<br>before starting the app. |
+
+---
+
+## 📁 Project Structure
+
 Risk_Chat/
 │
-├── app.py                     # Streamlit frontend
-├── api_server.py              # Flask backend API
-├── model_utils.py             # Model loading and prediction logic
-├── models/                    # Saved model and ensemble files
-│   ├── meta_model.joblib
-│   └── ensemble_metadata.pt
-├── risk_analysis_log.db       # SQLite database for logs
-├── requirements.txt           # Optional dependency list
-└── README.md                  # Project documentation
+├── app.py # Streamlit frontend
+├── api_server.py # Flask backend API
+├── model_utils.py # Model loading and prediction logic
+├── models/ # Saved model and ensemble files
+│ ├── meta_model.joblib
+│ └── ensemble_metadata.pt
+├── risk_analysis_log.db # SQLite database for logs
+├── requirements.txt # Optional dependency list
+└── README.md # Project documentation
 
-💡 Notes
 
-Always start api_server.py before app.py, since the frontend depends on the backend API.
+---
 
-Use the same virtual environment for both terminals.
+## 💡 Notes
 
-You can stop both services anytime using Ctrl + C in their respective terminals.
+- Always start **`api_server.py`** before **`app.py`**, since the frontend depends on the backend API.  
+- Use the same **virtual environment** for both terminals.  
+- You can stop both services anytime using **Ctrl + C** in their respective terminals.
 
-🧩 Future Improvements
+---
 
-Add user authentication and session management
+## 🧩 Future Improvements
 
-Integrate visualization dashboards for historical risk trends
+- Add user authentication and session management  
+- Integrate visualization dashboards for historical risk trends  
+- Deploy the system using Docker or cloud services  
+- Add multi-language text support  
 
-Deploy the system using Docker or cloud services
+---
 
-Add multi-language text support
-
-Author: Gunjan
-License: MIT
-Frameworks: Streamlit · Flask · PyTorch · Transformers
+**Author:** Gunjan  
+**License:** MIT  
+**Frameworks:** Streamlit · Flask · PyTorch · Transformers  
