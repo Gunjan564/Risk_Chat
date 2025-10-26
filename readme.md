@@ -1,68 +1,84 @@
 # 🧠 Mental Health Post Risk Detector
 
-This project is a web application designed to analyze text (simulated social media posts) for mental health risk levels using a deep learning ensemble model. The system operates using a two-tier architecture: a Streamlit frontend and a dedicated Python API backend.
+This project is a **web application** designed to analyze text (simulated social media posts) for **mental health risk levels** using a **deep learning ensemble model**.  
+The system operates using a **two-tier architecture** — a Streamlit frontend and a dedicated Python API backend.
+
+---
+
+## 🧩 System Overview
 
 | Service | Technology | Role | Port |
 | :--- | :--- | :--- | :--- |
-| **Frontend** (`app.py`) | Streamlit | Provides the web interface and handles user input. | `5000` |
-| **Backend API** (`api_server.py`) | Flask/PyTorch/Transformers | Hosts the heavy `MentalHealthEnsemble` and performs predictions. | `5001` |
-| **Database** (`risk_analysis_log.db`) | SQLite (via SQLAlchemy) | Logs every single analysis request for auditing purposes. | (File-based) |
+| **Frontend** (`app.py`) | Streamlit | Provides the web interface and handles user input | `5000` |
+| **Backend API** (`api_server.py`) | Flask / PyTorch / Transformers | Hosts the `MentalHealthEnsemble` model and performs predictions | `5001` |
+| **Database** (`risk_analysis_log.db`) | SQLite (via SQLAlchemy) | Logs every analysis request for auditing and tracking | *(File-based)* |
 
-***
+---
 
 ## 🚀 Setup and Installation
 
 Follow these steps exactly to set up and run both the backend and frontend services.
 
-### 1. Create and Activate Virtual Environment
+### 1. Create and Activate a Virtual Environment
 
-It's critical to use a virtual environment to manage dependencies.
+It’s **critical** to use a virtual environment to manage dependencies.
 
 ```bash
-# Navigate to the project folder (RISK_CHAT)
+# Navigate to the project folder
 cd C:\Users\hp\OneDrive\Desktop\Risk_Chat
 
-# Create a new environment
+# Create a new virtual environment
 python -m venv venv_new
 
 # Activate the environment
 .\venv_new\Scripts\activate
 
-2. Install Dependencies
-Install all required packages in the active environment:
-
-# Install core libraries and data science dependencies
-pip install streamlit requests sqlalchemy pandas scikit-learn torch transformers joblib flask flask-cors
+# Run the Streamlit app
+streamlit run app.py
 
 
-3. Setup Model Files
-Ensure your cleaned model checkpoint files (without optimizer.pt, etc.) and the ensemble files (meta_model.joblib, ensemble_metadata.pt) are correctly placed inside the models folder, matching the paths defined in model_utils.py.
+The app will automatically open in your browser at:
+👉 http://localhost:5000/
 
-4. Set Environment Variable
-The application requires an environment variable to locate the database file for logging. Set this in your terminal:
+⚠️ Troubleshooting Guide
+Error Message	Cause	Fix
+ConnectionError / Model service timed out	The backend (api_server.py) is not running or the models took too long to load.	1. Check Terminal 1: ensure the API server is running and shows Running on http://0.0.0.0:5001/.
+2. Increase timeout: open app.py, find APIModelClient.predict, and change timeout=60. Restart both services.
+ModuleNotFoundError	Dependencies installed in the wrong Python environment.	Recreate the virtual environment and reinstall all dependencies. Always ensure the environment is active before installing packages. You can also run:
+.\venv_new\Scripts\python.exe -m streamlit run app.py
+ValueError: DATABASE_URL environment variable not set	The mandatory environment variable is missing.	Run:
+set DATABASE_URL=sqlite:///./risk_analysis_log.db before starting the app.
+📁 Project Structure
+Risk_Chat/
+│
+├── app.py                     # Streamlit frontend
+├── api_server.py              # Flask backend API
+├── model_utils.py             # Model loading and prediction logic
+├── models/                    # Saved model and ensemble files
+│   ├── meta_model.joblib
+│   └── ensemble_metadata.pt
+├── risk_analysis_log.db       # SQLite database for logs
+├── requirements.txt           # Optional dependency list
+└── README.md                  # Project documentation
 
-set DATABASE_URL=sqlite:///./risk_analysis_log.db
+💡 Notes
 
-▶️ Running the Application
+Always start api_server.py before app.py, since the frontend depends on the backend API.
 
-You must run the services in the order below, using two separate terminal windows.
-A. Start the Backend Model Service (Terminal 1)
+Use the same virtual environment for both terminals.
 
-This service loads the large models and listens for requests on port 5001.
+You can stop both services anytime using Ctrl + C in their respective terminals.
 
-1. Open a FIRST terminal and activate your environment.
-2. Run the server using the API file (api_server.py):Bash(venv_new)       
-    C:\Users\hp\OneDrive\Desktop\Risk_Chat>python api_server.py
-Wait until you see the confirmation messages (e.g., "✅ Ensemble system loaded successfully") and the server running on port 5001.
-B. Start the Frontend Web App (Terminal 2)
-This starts the Streamlit interface on port 5000.
-1. Open a SECOND terminal and activate your environment.
-2. Run the Streamlit app:
-    Bash(venv_new) C:\Users\hp\OneDrive\Desktop\Risk_Chat> streamlit run app.py
-The application will open in your browser at http://localhost:5000/.
+🧩 Future Improvements
 
-⚠️ Troubleshooting
+Add user authentication and session management
 
-ConnectionError / Model service timed out.,The backend server (api_server.py) is either not running or took too long to load the large models.,"1. Check Terminal 1: Ensure api_server.py is running and says Running on http://0.0.0.0:5001/. 2. Increase Timeout: If models are slow, modify timeout in APIModelClient.predict (in app.py) to timeout=60 and restart both services."
-ModuleNotFoundError,The dependency was installed in the wrong Python environment.,Recreate the virtual environment and ensure all pip install commands run while the environment is fully active. Use .\venv_new\Scripts\python.exe -m streamlit run app.py to guarantee the correct Python is used.
-ValueError: DATABASE_URL environment variable not set,The mandatory variable was not set in the terminal.,Run set DATABASE_URL=sqlite:///./risk_analysis_log.db in the terminal before running the app.
+Integrate visualization dashboards for historical risk trends
+
+Deploy the system using Docker or cloud services
+
+Add multi-language text support
+
+Author: Gunjan
+License: MIT
+Frameworks: Streamlit · Flask · PyTorch · Transformers
