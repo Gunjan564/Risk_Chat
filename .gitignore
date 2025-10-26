@@ -1,6 +1,6 @@
 # Python virtual environments and caches
-.venv/
-venv/
+.venv_new/
+venv_new/
 __pycache__/
 *.pyc
 # Model data
