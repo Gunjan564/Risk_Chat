@@ -97,7 +97,7 @@ def get_supportive_response(risk_level):
         'moderate': ["The post contains clear signs of distress or challenging emotions, indicating a moderate level of risk. This warrants attention and referral to resources."],
         'high': ["🚨 HIGH RISK CONTENT DETECTED. The language used suggests immediate or severe mental health concern. Crisis resources should be provided immediately."]
     }
-    return random.choice(responses.get(risk_level, responses['moderate']))
+    return responses.get(risk_level, responses[risk_level])
 
 def add_risk_based_resources(risk_level):
     """Display resources based on detected risk level."""
